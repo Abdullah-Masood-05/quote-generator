@@ -1,95 +1,88 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+
+import { useState } from 'react'
+import { quotes } from '@/data/quotes'
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [topic, setTopic] = useState('')
+  const [matchedQuotes, setMatchedQuotes] = useState([])
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const filtered = quotes
+      .filter(q => q.topic.toLowerCase() === topic.toLowerCase())
+      .slice(0, 3)
+    setMatchedQuotes(filtered)
+  }
+
+  return (
+    <main style={styles.container}>
+      <h1 style={styles.heading}>Quote Generator</h1>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <input
+          type="text"
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+          placeholder="Enter topic (e.g. life)"
+          style={styles.input}
+        />
+        <button type="submit" style={styles.button}>Get Quotes</button>
+      </form>
+
+      <div style={styles.results}>
+        {matchedQuotes.length === 0 && topic && (
+          <p style={styles.noResult}>No quotes found for "{topic}".</p>
+        )}
+        {matchedQuotes.map((q, i) => (
+          <div key={i} style={styles.quoteBox}>
+            {q.text}
+          </div>
+        ))}
+      </div>
+    </main>
+  )
+}
+
+const styles = {
+  container: {
+    minHeight: '100vh',
+    padding: '2rem',
+    textAlign: 'center',
+    fontFamily: 'sans-serif',
+    backgroundColor: '#f0f0f0',
+  },
+  heading: {
+    fontSize: '2rem',
+    marginBottom: '1rem',
+  },
+  form: {
+    marginBottom: '2rem',
+  },
+  input: {
+    padding: '0.5rem',
+    fontSize: '1rem',
+    width: '200px',
+    marginRight: '0.5rem',
+  },
+  button: {
+    padding: '0.5rem 1rem',
+    fontSize: '1rem',
+    cursor: 'pointer',
+  },
+  results: {
+    maxWidth: '600px',
+    margin: '0 auto',
+    textAlign: 'left',
+  },
+  quoteBox: {
+    background: '#fff',
+    padding: '1rem',
+    borderRadius: '8px',
+    marginBottom: '1rem',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  },
+  noResult: {
+    fontStyle: 'italic',
+    color: 'gray',
+  },
 }
