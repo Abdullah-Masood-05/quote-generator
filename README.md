@@ -20,12 +20,13 @@ Describe how you're feeling and get short, share-ready quotes for your
 story image (1080×1920), and a WhatsApp share link.
 
 Built with **Next.js 16** + **React 19**, running on **Bun**. Quotes come from a
-separate [`quote-backend`](../quote-backend) service powered by Groq.
+separate [`vibequotes-api`](https://github.com/Abdullah-Masood-05/vibequotes-api)
+service powered by Groq.
 
 ```
 AI-App/
-├── quote-generator/   ← this app (frontend)
-└── quote-backend/     ← Groq-powered API (separate repo)
+├── vibequotes/       ← this app (frontend)
+└── vibequotes-api/   ← Groq-powered API (separate repo)
 ```
 
 ## Requirements
@@ -48,7 +49,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 
 ## Run
 
-Start the backend first (in `../quote-backend`: `bun run dev`), then:
+Start the backend first (in `../vibequotes-api`: `bun run dev`), then:
 
 ```bash
 bun run dev      # http://localhost:3000
