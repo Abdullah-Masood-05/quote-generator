@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Feelings Quote Generator
 
-## Getting Started
+Describe how you're feeling and get short, share-ready quotes for your
+**WhatsApp Status** and **Instagram Stories** — with one-tap copy, a downloadable
+story image (1080×1920), and a WhatsApp share link.
 
-First, run the development server:
+Built with **Next.js 16** + **React 19**, running on **Bun**. Quotes come from a
+separate [`quote-backend`](../quote-backend) service powered by Groq.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+AI-App/
+├── quote-generator/   ← this app (frontend)
+└── quote-backend/     ← Groq-powered API (separate repo)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Requirements
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- [Bun](https://bun.sh) 1.x
+- The `quote-backend` running (see its README)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup
 
-## Learn More
+```bash
+bun install
+cp .env.example .env.local   # adjust the backend URL if needed
+```
 
-To learn more about Next.js, take a look at the following resources:
+`.env.local`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Run
 
-## Deploy on Vercel
+Start the backend first (in `../quote-backend`: `bun run dev`), then:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+bun run dev      # http://localhost:3000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Other scripts: `bun run build`, `bun run start`, `bun run lint`.
+
+## How it works
+
+1. You type a feeling and pick a tone + target platform.
+2. The app calls `POST {NEXT_PUBLIC_API_URL}/api/quotes`.
+3. The backend asks Groq for original, status-sized quotes (with hashtags for
+   Instagram) and returns them.
+4. Each quote can be copied, downloaded as a story image, or sent to WhatsApp.
+
+If the backend can't reach Groq (or has no API key), it returns built-in sample
+quotes so the app keeps working.
