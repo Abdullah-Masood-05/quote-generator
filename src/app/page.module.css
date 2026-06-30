@@ -12,6 +12,14 @@
   margin-bottom: 28px;
 }
 
+.logo {
+  width: 76px;
+  height: 76px;
+  margin-bottom: 16px;
+  border-radius: 20px;
+  filter: drop-shadow(0 8px 24px rgba(124, 58, 237, 0.45));
+}
+
 .badge {
   display: inline-block;
   font-size: 13px;

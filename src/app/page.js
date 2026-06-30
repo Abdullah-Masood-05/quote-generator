@@ -223,6 +223,8 @@ export default function Home() {
   return (
     <main className={styles.page}>
       <header className={styles.hero}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.svg" alt="Feelings Quote" className={styles.logo} width={76} height={76} />
         <span className={styles.badge}>WhatsApp Status • Instagram Stories</span>
         <h1 className={styles.title}>Turn your feelings into quotes</h1>
         <p className={styles.subtitle}>
